@@ -19,7 +19,7 @@ router.get("/", async (req, res, next) => {
         },
       },
       attributes: ["id"],
-      order: [["updatedAt", "DESC"], [Message, "createdAt", "ASC"]],
+      order: [[Message, "createdAt", "ASC"]],
       include: [
         { model: Message, order: ["createdAt", "ASC"] },
         {
@@ -73,6 +73,7 @@ router.get("/", async (req, res, next) => {
       conversations[i] = convoJSON;
     }
 
+    conversations.reverse();
     res.json(conversations);
   } catch (error) {
     next(error);
