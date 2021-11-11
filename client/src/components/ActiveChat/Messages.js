@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@material-ui/core";
 import { SenderBubble, OtherUserBubble } from "../ActiveChat";
 import moment from "moment";
+import OtherUserAvatar from "./OtherUserAvatar";
 
 const Messages = (props) => {
   const { messages, otherUser, userId } = props;
@@ -17,6 +18,10 @@ const Messages = (props) => {
           <OtherUserBubble key={message.id} text={message.text} time={time} otherUser={otherUser} />
         );
       })}
+      {messages[messages.length - 1].senderId === userId &&
+       messages[messages.length - 1].msgRead === true &&
+        <OtherUserAvatar otherUser={otherUser} />
+      }
     </Box>
   );
 };

@@ -43,4 +43,23 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.patch("/:id", async(req, res, next) => {
+  const { msgRead } = req.body;
+  try {
+    const data = await Message.update(
+      { msgRead },
+      { returning: true,
+        where: {id: req.params.id}
+      }
+    );
+
+    // first item in data is the number of rows affected
+    // second item is an array with the rows
+    const message = (data.length > 1) && data[1][0];
+    res.json({ message });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
