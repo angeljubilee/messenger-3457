@@ -18,8 +18,9 @@ const Messages = (props) => {
           <OtherUserBubble key={message.id} text={message.text} time={time} otherUser={otherUser} />
         );
       })}
-      {messages[messages.length - 1].senderId === userId &&
-       messages[messages.length - 1].msgRead === true &&
+      {(messages.length > 0) &&
+        messages[messages.length - 1].senderId === userId &&
+        messages[messages.length - 1].msgRead === true &&
         <OtherUserAvatar otherUser={otherUser} />
       }
     </Box>
