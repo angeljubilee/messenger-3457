@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box } from "@material-ui/core";
 import { SenderBubble, OtherUserBubble } from "../ActiveChat";
 import moment from "moment";
 
 const Messages = (props) => {
   const { messages, otherUser, userId } = props;
-  const firstUnreadMessage = messages.findIndex(msg => msg.msgRead === false);
-  const lastReadMessage = (firstUnreadMessage === -1)
-    ? messages[messages.length - 1].id
-    : messages[firstUnreadMessage - 1].id;
+  let lastReadMessage = useMemo(() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].msgRead) {
+        return messages[i].id;
+      }
+    }
+    return null
+  }, [messages]);
+
 
   return (
     <Box>

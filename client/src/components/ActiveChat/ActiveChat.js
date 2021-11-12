@@ -27,14 +27,12 @@ const ActiveChat = (props) => {
   const conversation = props.conversation || {};
 
   useEffect(() => {
-    if (!conversation.messages) {
-      return;
-    }
-
-    const lastMessageIndex = conversation.messages.length - 1;
-    if (conversation.messages[lastMessageIndex].msgRead === false &&
-        conversation.messages[lastMessageIndex].senderId !== user.id) {
-      markMessagesRead(conversation.id);
+    if (conversation.messages && conversation.messages.length) {
+      const lastMessageIndex = conversation.messages.length - 1;
+      if (conversation.messages[lastMessageIndex].msgRead === false &&
+          conversation.messages[lastMessageIndex].senderId !== user.id) {
+        markMessagesRead(conversation.id);
+      }
     }
   });
 
