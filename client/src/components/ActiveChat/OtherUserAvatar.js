@@ -11,7 +11,8 @@ const useStyles = makeStyles(() => ({
   avatar: {
     height: 25,
     width: 25,
-    marginTop: 6
+    marginTop: 6,
+    marginBottom: 6
   },
 }));
 

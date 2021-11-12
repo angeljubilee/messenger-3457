@@ -9,13 +9,13 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     fontSize: 14,
-    color: "#ffffff",
-    padding: ".2rem .6rem",
-    fontWeight: "bold"
+    color: theme.palette.text.disabled,
+    padding: theme.spacing(.8, 1.6),
+    fontWeight: theme.typography.fontWeightBold
   },
 }));
 
-const UnreadMsgCount = (props) => {
+const UnreadMessageBadge = (props) => {
   const classes = useStyles();
   const { unreadCount } = props;
 
@@ -32,4 +32,4 @@ const UnreadMsgCount = (props) => {
   );
 };
 
-export default UnreadMsgCount;
+export default UnreadMessageBadge;

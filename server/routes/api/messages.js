@@ -43,20 +43,24 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async(req, res, next) => {
-  const { msgRead } = req.body;
+router.patch("/", async(req, res, next) => {
+  if (!req.user) {
+    return res.sendStatus(401);
+  }
+  const { conversationId, msgRead } = req.body;
   try {
-    const data = await Message.update(
+    const convo = await Conversation.findOne({ where: { id: conversationId } });
+    if(convo.user1Id !== req.user.id && convo.user2Id !== req.user.id) {
+      return res.sendStatus(404);
+    }
+
+    await Message.update(
       { msgRead },
       { returning: true,
-        where: {id: req.params.id}
+        where: { conversationId }
       }
     );
-
-    // first item in data is the number of rows affected
-    // second item is an array with the rows
-    const message = (data.length > 1) && data[1][0];
-    res.json({ message });
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }

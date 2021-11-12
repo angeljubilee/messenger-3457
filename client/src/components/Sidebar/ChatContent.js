@@ -10,18 +10,17 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   username: {
-    fontWeight: "bold",
+    fontWeight: theme.typography.fontWeightBold,
     letterSpacing: -0.2,
   },
   previewText: {
     fontSize: 12,
-    color: "#9CADC8",
+    color: theme.palette.text.secondary,
     letterSpacing: -0.17,
   },
   boldText: {
-    fontSize: 14,
-    fontWeight: 700,
-    color: 	"#000000",
+    fontWeight: theme.typography.fontWeightBold,
+    color: 	theme.palette.text.main,
     letterSpacing: -0.17
   }
 }));

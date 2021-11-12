@@ -92,6 +92,10 @@ const sendMessage = (data, body) => {
   });
 };
 
+const markRead = (conversationId) => {
+  socket.emit("mark-read", conversationId);
+};
+
 // message format to send: {recipientId, text, conversationId}
 // conversationId will be set to null if its a brand new conversation
 export const postMessage = (body) => async (dispatch) => {
@@ -117,13 +121,12 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
   }
 };
 
-export const markMessagesRead = (msgIds) => async (dispatch) => {
-  const messages = await Promise.all(msgIds.map(id => {
-    return axios
-      .patch(`/api/messages/${id}`, { msgRead: true })
-      .then(res => res.data.message)
-      .catch(e => console.error(e));
-  }));
-
-  dispatch(updateMessages(messages));
+export const markMessagesRead = (conversationId) => async (dispatch) => {
+  try {
+    await axios.patch(`/api/messages`, { conversationId, msgRead: true });
+    dispatch(updateMessages(conversationId));
+    markRead(conversationId);
+  } catch (error) {
+    console.error(error);
+  }
 }

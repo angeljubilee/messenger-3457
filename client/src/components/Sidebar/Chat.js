@@ -1,10 +1,9 @@
 import React, { useMemo } from "react";
 import { Box } from "@material-ui/core";
-import { BadgeAvatar, ChatContent, UnreadMsgCount } from "../Sidebar";
+import { BadgeAvatar, ChatContent, UnreadMessageBadge } from "../Sidebar";
 import { makeStyles } from "@material-ui/core/styles";
 import { setActiveChat } from "../../store/activeConversation";
 import { connect } from "react-redux";
-import { markMessagesRead } from "../../store/utils/thunkCreators";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,29 +21,21 @@ const useStyles = makeStyles((theme) => ({
 
 const Chat = (props) => {
   const classes = useStyles();
-  const { markMessagesRead, conversation } = props;
+  const { conversation } = props;
   const { otherUser } = conversation;
 
-  const unreadMsgs = useMemo(() => {
-    if (!conversation.messages) {
-      return [];
-    }
-
-    let unreadMsgs = [];
-    for (let i = 0; i < conversation.messages.length; i++) {
-      let msg = conversation.messages[i];
-      if (!msg.msgRead && msg.senderId === otherUser.id) {
-        unreadMsgs.push(msg.id);
+  const unreadMsgCount = useMemo(() => {
+    let count = conversation.messages.reduce((acc, curr) => {
+      if (!curr.msgRead && curr.senderId === otherUser.id) {
+        return acc+1;
       }
-    }
-    return unreadMsgs;
+      return acc;
+    }, 0);
+    return count;
   }, [conversation, otherUser]);
 
   const handleClick = async (conversation) => {
     await props.setActiveChat(conversation.otherUser.username);
-    if (unreadMsgs.length > 0) {
-      markMessagesRead(unreadMsgs);
-    }
   };
 
   return (
@@ -55,8 +46,8 @@ const Chat = (props) => {
         online={otherUser.online}
         sidebar={true}
       />
-      <ChatContent conversation={conversation} unreadCount={unreadMsgs.length} />
-      <UnreadMsgCount unreadCount={unreadMsgs.length}/>
+      <ChatContent conversation={conversation} unreadCount={unreadMsgCount} />
+      <UnreadMessageBadge unreadCount={unreadMsgCount}/>
     </Box>
   );
 };
@@ -65,9 +56,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setActiveChat: (id) => {
       dispatch(setActiveChat(id));
-    },
-    markMessagesRead: (msgIds) => {
-      dispatch(markMessagesRead(msgIds));
     }
   };
 };
