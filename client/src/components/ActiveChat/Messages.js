@@ -7,12 +7,12 @@ const Messages = (props) => {
   const { messages, otherUser, userId } = props;
   let lastReadMessage = useMemo(() => {
     for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].msgRead) {
+      if (messages[i].msgRead && messages[i].senderId === userId) {
         return messages[i].id;
       }
     }
     return null
-  }, [messages]);
+  }, [messages, userId]);
 
 
   return (
