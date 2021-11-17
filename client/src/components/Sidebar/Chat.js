@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box } from "@material-ui/core";
-import { BadgeAvatar, ChatContent } from "../Sidebar";
+import { BadgeAvatar, ChatContent, UnreadMessageBadge } from "../Sidebar";
 import { makeStyles } from "@material-ui/core/styles";
 import { setActiveChat } from "../../store/activeConversation";
 import { connect } from "react-redux";
@@ -24,6 +24,30 @@ const Chat = (props) => {
   const { conversation } = props;
   const { otherUser } = conversation;
 
+  const unreadMsgCount = useMemo(() => {
+    let count = conversation.messages.reduce((acc, curr) => {
+      if (!curr.msgRead && curr.senderId === otherUser.id) {
+        return acc+1;
+      }
+      return acc;
+    }, 0);
+    return count;
+  }, [conversation, otherUser]);
+
+  let color;
+  let fontSize;
+  let fontWeight;
+
+  if (unreadMsgCount > 0) {
+    color = 'black';
+    fontSize = 14;
+    fontWeight = 700;
+  } else {
+    color = '#9CADC8';
+    fontSize = 12;
+    fontWeight = 400;
+  }
+
   const handleClick = async (conversation) => {
     await props.setActiveChat(conversation.otherUser.username);
   };
@@ -36,7 +60,9 @@ const Chat = (props) => {
         online={otherUser.online}
         sidebar={true}
       />
-      <ChatContent conversation={conversation} />
+      <ChatContent conversation={conversation} color={color}
+        fontSize={fontSize} fontWeight={fontWeight} />
+      <UnreadMessageBadge unreadCount={unreadMsgCount}/>
     </Box>
   );
 };

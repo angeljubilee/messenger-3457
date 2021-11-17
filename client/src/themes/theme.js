@@ -8,7 +8,7 @@ export const theme = createMuiTheme({
       textTransform: "none",
       letterSpacing: 0,
       fontWeight: "bold"
-    }
+    },
   },
   overrides: {
     MuiInput: {
@@ -19,6 +19,11 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: { main: "#3A8DFF" },
-    secondary: { main: "#B0B0B0" }
+    secondary: { main: "#B0B0B0" },
+    text: {
+      main: "#000000",
+      secondary: "#9CADC8",
+      disabled: "#ffffff"
+    }
   }
 });
