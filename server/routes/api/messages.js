@@ -51,7 +51,7 @@ router.patch("/", async(req, res, next) => {
   try {
     const convo = await Conversation.findOne({ where: { id: conversationId } });
     if(convo.user1Id !== req.user.id && convo.user2Id !== req.user.id) {
-      return res.sendStatus(404);
+      return res.sendStatus(403);
     }
 
     await Message.update(

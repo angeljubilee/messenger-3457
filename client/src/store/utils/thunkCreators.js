@@ -93,7 +93,7 @@ const sendMessage = (data, body) => {
 };
 
 const markRead = (conversationId) => {
-  socket.emit("mark-read", conversationId);
+  socket.emit("mark-read", { conversationId });
 };
 
 // message format to send: {recipientId, text, conversationId}

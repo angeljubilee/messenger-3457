@@ -34,6 +34,20 @@ const Chat = (props) => {
     return count;
   }, [conversation, otherUser]);
 
+  let color;
+  let fontSize;
+  let fontWeight;
+
+  if (unreadMsgCount > 0) {
+    color = 'black';
+    fontSize = 14;
+    fontWeight = 700;
+  } else {
+    color = '#9CADC8';
+    fontSize = 12;
+    fontWeight = 400;
+  }
+
   const handleClick = async (conversation) => {
     await props.setActiveChat(conversation.otherUser.username);
   };
@@ -46,7 +60,8 @@ const Chat = (props) => {
         online={otherUser.online}
         sidebar={true}
       />
-      <ChatContent conversation={conversation} unreadCount={unreadMsgCount} />
+      <ChatContent conversation={conversation} color={color}
+        fontSize={fontSize} fontWeight={fontWeight} />
       <UnreadMessageBadge unreadCount={unreadMsgCount}/>
     </Box>
   );
