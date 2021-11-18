@@ -4,9 +4,9 @@ const Message = require("./message");
 const Member = require("./member");
 
 // associations
-
-User.hasMany(Conversation);
-Members.belongsTo(Conversation);
+User.hasMany(Member);
+Member.belongsTo(User);
+Member.belongsTo(Conversation);
 Message.belongsTo(Conversation);
 Conversation.hasMany(Message);
 Conversation.hasMany(Member);
