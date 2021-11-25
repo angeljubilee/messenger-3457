@@ -89,6 +89,7 @@ export const updateMessagesToStore = (state, conversationId) => {
       convoCopy.messages.forEach((msg) => {
         msg.msgRead = true;
       });
+      convoCopy.unreadMessageCount = 0;
       return convoCopy;
     } else {
       return convo;
