@@ -24,15 +24,11 @@ const Chat = (props) => {
   const { conversation } = props;
   const { otherUser } = conversation;
 
-  const unreadMsgCount = useMemo(() => {
-    let count = conversation.messages.reduce((acc, curr) => {
-      if (!curr.msgRead && curr.senderId === otherUser.id) {
-        return acc+1;
-      }
-      return acc;
-    }, 0);
-    return count;
-  }, [conversation, otherUser]);
+  const lastMsgIndex = conversation.messages.length > 0
+    && conversation.messages.length - 1;
+  const unreadMsgCount = conversation.messages.length > 0 &&
+    conversation.messages[lastMsgIndex].senderId === otherUser.id
+    ? conversation.unreadMessageCount : 0;
 
   let color;
   let fontSize;
